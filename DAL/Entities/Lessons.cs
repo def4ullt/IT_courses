@@ -9,7 +9,7 @@ namespace DAL.Entities
 {
 	internal class Lessons
 	{
-		public int id { get; set; }
+		public int Id { get; set; }
 		public int course_id { get; set; }
 		public string title { get; set; }
 		public string content { get; set; }

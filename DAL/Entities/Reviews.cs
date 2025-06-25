@@ -8,7 +8,7 @@ namespace DAL.Entities
 {
 	internal class Reviews
 	{
-		public int id { get; set; }
+		public int Id { get; set; }
 		public int course_id { get; set; }
 		public string user_id { get; set; }
 		public int rating { get; set; } 

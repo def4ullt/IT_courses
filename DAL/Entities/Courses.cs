@@ -8,10 +8,10 @@ namespace DAL.Entities
 {
 	internal class Courses
 	{
-		public int id { get; set; }
+		public int Id { get; set; }
 		public string title { get; set; }
 		public string description { get; set; }
-		public int instructor_id { get; set; }
+		public string instructor_id { get; set; }
 		public DateTime created_at { get; set; }
 	}
 }
