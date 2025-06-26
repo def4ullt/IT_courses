@@ -12,7 +12,7 @@ namespace DAL.Entities.Configuration
 	{
 		public void Configure(EntityTypeBuilder<Enrollments> builder)
 		{
-			builder.HasKey(e => e.id);
+			builder.HasKey(e => e.Id);
 			builder.Property(e => e.user_id).IsRequired();
 			builder.Property(e => e.course_id).IsRequired();
 			builder.Property(e => e.enrolled_at).IsRequired();

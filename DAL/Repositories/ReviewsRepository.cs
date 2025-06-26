@@ -20,14 +20,14 @@ namespace DAL.Repositories
 			return await _context.Reviews.FindAsync(id);
 		}
 
-		public async Task<List<Reviews>> GetByUserIdAsync(string userId)
+		public async Task<IEnumerable<Reviews>> GetByUserIdAsync(string userId)
 		{
 			return await _context.Reviews
 				.Where(r => r.user_id == userId)
 				.ToListAsync();
 		}
 
-		public async Task<List<Reviews>> GetByCourseIdAsync(int courseId)
+		public async Task<IEnumerable<Reviews>> GetByCourseIdAsync(int courseId)
 		{
 			return await _context.Reviews
 				.Where(r => r.course_id == courseId)

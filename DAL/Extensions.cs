@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL
 {
@@ -17,6 +19,11 @@ namespace DAL
 	{
 		public static IServiceCollection AddDALServices(this IServiceCollection services, IConfiguration configuration)
 		{
+			services.AddDbContext<ApplicationDbContext>(options =>
+			{
+				options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+			});
+
 			services.AddScoped<IUsersRepository, UsersRepository>();
 			services.AddScoped<ICoursesRepository, CoursesRepository>();
 			services.AddScoped<ILessonsRepository, LessonsRepository>();

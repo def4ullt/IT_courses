@@ -26,7 +26,7 @@ namespace DAL.Repositories
 			return await _dbSet.ToListAsync(cancellationToken);
 		}
 
-		public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+		public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
 		{
 			return await _dbSet.FindAsync(new object[] { id }, cancellationToken);
 		}

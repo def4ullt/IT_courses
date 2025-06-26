@@ -13,9 +13,9 @@ namespace DAL.Entities.Configuration
 		public void Configure(EntityTypeBuilder<Lessons> builder)
 		{
 
-			builder.HasKey(l => l.id);
+			builder.HasKey(l => l.Id);
 
-			builder.Property(l => l.id)
+			builder.Property(l => l.Id)
 				.HasColumnName("id")
 				.IsRequired();
 

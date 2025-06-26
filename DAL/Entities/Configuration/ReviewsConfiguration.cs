@@ -13,7 +13,7 @@ namespace DAL.Entities.Configuration
 		public void Configure(EntityTypeBuilder<Reviews> builder)
 		{
 
-			builder.HasKey(r => r.id);
+			builder.HasKey(r => r.Id);
 
 			builder.Property(r => r.user_id)
 				.IsRequired();

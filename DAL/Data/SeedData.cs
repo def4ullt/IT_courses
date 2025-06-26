@@ -17,7 +17,6 @@ namespace DAL.Data
 		{
 			await context.Database.MigrateAsync();
 
-			// 1. Ролі
 			var roles = new[] { "Admin", "User" };
 			foreach (var role in roles)
 			{
@@ -25,7 +24,6 @@ namespace DAL.Data
 					await roleManager.CreateAsync(new IdentityRole(role));
 			}
 
-			// 2. Користувачі
 			if (!context.Users.Any())
 			{
 				var usersFaker = new Faker<Users>()
@@ -71,7 +69,6 @@ namespace DAL.Data
 				await context.Courses.AddRangeAsync(courses);
 				await context.SaveChangesAsync();
 
-				// 4. Уроки
 				foreach (var course in courses)
 				{
 					for (int i = 0; i < 3; i++)
@@ -89,11 +86,9 @@ namespace DAL.Data
 				await context.SaveChangesAsync();
 			}
 
-			// Попередньо завантажені дані
 			var allUsers = await context.Users.ToListAsync();
 			var allCourses = await context.Courses.ToListAsync();
 
-			// 5. Enrollments
 			if (!context.Enrollments.Any())
 			{
 				var enrollmentsFaker = new Faker<Enrollments>()
@@ -106,7 +101,6 @@ namespace DAL.Data
 				await context.SaveChangesAsync();
 			}
 
-			// 6. Reviews
 			if (!context.Reviews.Any())
 			{
 				var reviewsFaker = new Faker<Reviews>()

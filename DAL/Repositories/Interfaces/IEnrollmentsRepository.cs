@@ -9,7 +9,7 @@ namespace DAL.Repositories.Interfaces
 {
 	internal interface IEnrollmentsRepository : IGenericRepository<Enrollments>
 	{
-		Task<Enrollments> GetByIdAsync(int id);
+		Task<Enrollments?> GetByIdAsync(int id);
 		Task<List<Enrollments>> GetByUserIdAsync(string userId);
 		Task<List<Enrollments>> GetByCourseIdAsync(int courseId);
 		Task AddAsync(Enrollments enrollment);
