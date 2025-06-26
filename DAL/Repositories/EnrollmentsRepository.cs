@@ -53,9 +53,9 @@ namespace DAL.Repositories
 			await _context.SaveChangesAsync();
 		}
 
-		public async IQueryable<Enrollments> GetAllQueryable()
+		public IQueryable<Enrollments> GetAllQueryable()
 		{
-			return _context.Enrollments.
+			return _context.Enrollments.AsQueryable();
 		}
 	}
 }
