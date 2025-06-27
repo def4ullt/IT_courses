@@ -12,7 +12,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KnowledgeCheck.BLL.Services
+namespace BLL.Services
 {
     public class AuthService : IAuthService
     {
@@ -60,7 +60,7 @@ namespace KnowledgeCheck.BLL.Services
         public async Task<RefreshTokenResponseDto> RefreshTokenAsync(string refreshToken)
         {
 
-            var dummyUser = new User
+            var dummyUser = new Users
             {
                 Id = "1",
                 UserName = "testuser",
@@ -79,38 +79,38 @@ namespace KnowledgeCheck.BLL.Services
 
         public async Task<bool> RegisterAsync(string username, string email, string password)
         {
-            var existingUser = await _userRepository.GetByUsernameAsync(username);
+            var existingUser = await _usersRepository.GetByUsernameAsync(username);
             if (existingUser != null)
                 return false;
 
-            var user = new User
+            var user = new Users
             {
                 UserName = username,
                 Email = email,
                 Role = "User"
             };
 
-            var result = await _userManager.CreateAsync(user, password);
+            var result = await _usersManager.CreateAsync(user, password);
             return result.Succeeded;
         }
 
         public async Task<bool> ConfirmEmailAsync(string userId, string token)
         {
-            var user = await _userRepository.GetByIdAsync(int.Parse(userId));
+            var user = await _usersRepository.GetByIdAsync(int.Parse(userId));
             if (user == null)
                 return false;
 
-            var result = await _userManager.ConfirmEmailAsync(user, token);
+            var result = await _usersManager.ConfirmEmailAsync(user, token);
             return result.Succeeded;
         }
 
         public async Task<bool> ForgotPasswordAsync(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _usersManager.FindByEmailAsync(email);
             if (user == null)
                 return false;
 
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var token = await _usersManager.GeneratePasswordResetTokenAsync(user);
 
             // Відправка email з токеном тут (реалізуєш пізніше)
             return true;
@@ -118,11 +118,11 @@ namespace KnowledgeCheck.BLL.Services
 
         public async Task<bool> ResetPasswordAsync(string email, string token, string newPassword)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _usersManager.FindByEmailAsync(email);
             if (user == null)
                 return false;
 
-            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            var result = await _usersManager.ResetPasswordAsync(user, token, newPassword);
             return result.Succeeded;
         }
 
@@ -131,7 +131,7 @@ namespace KnowledgeCheck.BLL.Services
             await _signInManager.SignOutAsync();
         }
 
-        private string GenerateJwtToken(User user)
+        private string GenerateJwtToken(Users user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["JwtConfig:Key"]);
