@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities.Configuration
 {
-	internal class CoursesConfiguration : IEntityTypeConfiguration<Courses>
+	public class CoursesConfiguration : IEntityTypeConfiguration<Courses>
 	{
 		public void Configure(EntityTypeBuilder<Courses> builder)
 		{

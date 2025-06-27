@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories.Interfaces
 {
-	internal interface IGenericRepository<T> where T : class
+	public interface IGenericRepository<T> where T : class
 	{
 		Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
 		Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-	internal class Enrollments
+	public class Enrollments
 	{
 		public int Id { get; set; }
 		public string user_id { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories.Interfaces
 {
-	internal interface IEnrollmentsRepository : IGenericRepository<Enrollments>
+	public interface IEnrollmentsRepository : IGenericRepository<Enrollments>
 	{
 		Task<Enrollments?> GetByIdAsync(int id);
 		Task<List<Enrollments>> GetByUserIdAsync(string userId);

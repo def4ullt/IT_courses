@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-	internal class Lessons
+	public class Lessons
 	{
 		public int Id { get; set; }
 		public int course_id { get; set; }

@@ -7,7 +7,7 @@ using DAL.Repositories.Interfaces;
 using DAL.Data;
 namespace DAL.UOW
 {
-	internal class UnitOfWork : IUnitOfWork
+	public class UnitOfWork : IUnitOfWork
 	{
 		private readonly ApplicationDbContext _context;
 

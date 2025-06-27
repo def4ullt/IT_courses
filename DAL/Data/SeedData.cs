@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Data
 {
-	internal class SeedData
+	public class SeedData
 	{
 		public static async Task SeedAsync(
 			ApplicationDbContext context,

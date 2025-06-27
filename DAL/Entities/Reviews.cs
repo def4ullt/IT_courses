@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-	internal class Reviews
+	public class Reviews
 	{
 		public int Id { get; set; }
 		public int course_id { get; set; }

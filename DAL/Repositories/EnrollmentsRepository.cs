@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-	internal class EnrollmentsRepository : GenericRepository<Enrollments>, IEnrollmentsRepository
+	public class EnrollmentsRepository : GenericRepository<Enrollments>, IEnrollmentsRepository
 	{
 		public EnrollmentsRepository(ApplicationDbContext context) : base(context) { }
 

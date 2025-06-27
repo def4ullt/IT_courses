@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities.Configuration
 {
-	internal class ReviewsConfiguration : IEntityTypeConfiguration<Reviews>
+	public class ReviewsConfiguration : IEntityTypeConfiguration<Reviews>
 	{
 		public void Configure(EntityTypeBuilder<Reviews> builder)
 		{

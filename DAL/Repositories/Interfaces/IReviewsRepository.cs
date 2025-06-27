@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories.Interfaces
 {
-	internal interface IReviewsRepository : IGenericRepository<Reviews>
+	public interface IReviewsRepository : IGenericRepository<Reviews>
 	{
 		Task<Reviews?> GetByIdAsync(int id);
 		Task<IEnumerable<Reviews>> GetByCourseIdAsync(int courseId);

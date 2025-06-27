@@ -7,7 +7,7 @@ using DAL.Repositories.Interfaces;
 
 namespace DAL.UOW
 {
-	internal interface IUnitOfWork : IDisposable
+	public interface IUnitOfWork : IDisposable
 	{
 		IEnrollmentsRepository Enrollments { get; }
 		IUsersRepository Users { get; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities.HelpModels
 {
-	internal class LessonsParameters : QueryStringParameters
+	public class LessonsParameters : QueryStringParameters
 	{
 		public string? SearchTerm { get; set; }
 		public int? CourseId { get; set; }

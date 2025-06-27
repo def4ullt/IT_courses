@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories.Interfaces
 {
-	internal interface IUsersRepository : IGenericRepository<Users>
+	public interface IUsersRepository : IGenericRepository<Users>
 	{
 		Task<Users?> GetByIdAsync(int id);
 		Task<Users?> GetByUsernameAsync(string username);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities.HelpModels
 {
-	internal class UsersParameters : QueryStringParameters
+	public class UsersParameters : QueryStringParameters
 	{
 		public string? SearchTerm { get; set; }
 		public DateTime? CreatedAfter { get; set; }

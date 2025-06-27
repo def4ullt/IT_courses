@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-	internal class ReviewsRepository : GenericRepository<Reviews>, IReviewsRepository
+	public class ReviewsRepository : GenericRepository<Reviews>, IReviewsRepository
 	{
 		public ReviewsRepository(ApplicationDbContext context) : base(context) { }
 

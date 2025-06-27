@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories.Interfaces
 {
-	internal interface ICoursesRepository : IGenericRepository<Courses>
+	public interface ICoursesRepository : IGenericRepository<Courses>
 	{
 		Task<Courses?> GetByIdAsync(int id);
 		Task AddAsync(Courses courses);

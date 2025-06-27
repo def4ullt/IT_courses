@@ -9,7 +9,7 @@ using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 namespace DAL.Repositories
 {
-	internal class UsersRepository : GenericRepository<Users>, IUsersRepository
+	public class UsersRepository : GenericRepository<Users>, IUsersRepository
 	{
 		public UsersRepository(ApplicationDbContext context) : base(context) { }
 

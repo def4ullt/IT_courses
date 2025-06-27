@@ -11,7 +11,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace DAL.Data
 {
-	internal class ApplicationDbContext : IdentityDbContext<Users>
+	public class ApplicationDbContext : IdentityDbContext<Users>
 	{
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options) { }

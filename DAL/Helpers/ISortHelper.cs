@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Helpers
 {
-	internal interface ISortHelper<T>
+	public interface ISortHelper<T>
 	{
 		IQueryable<T> ApplySort(IQueryable<T> entities, string? orderByQueryString);
 	}
