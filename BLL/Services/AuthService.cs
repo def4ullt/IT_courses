@@ -112,7 +112,6 @@ namespace BLL.Services
 
             var token = await _usersManager.GeneratePasswordResetTokenAsync(user);
 
-            // Відправка email з токеном тут (реалізуєш пізніше)
             return true;
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.DTO.Users
 {
-	internal class UserUpdateDto
+	public class UserUpdateDto
 	{
 		public string Id { get; set; } = null!;
 		public string? Email { get; set; }

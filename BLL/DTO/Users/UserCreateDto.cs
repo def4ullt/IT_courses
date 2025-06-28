@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.DTO.Users
 {
-	internal class UserCreateDto
+	public class UserCreateDto
 	{
 		public string UserName { get; set; } = null!;
 		public string Email { get; set; } = null!;

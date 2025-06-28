@@ -15,5 +15,6 @@ namespace DAL.Repositories.Interfaces
 		void Delete(Courses courses);
 		Task SaveChangesAsync();
 		IQueryable<Courses> GetByInstructorIdAsync(string instructor_id);
+		IQueryable<Courses> GetAllQueryable();
 	}
 }

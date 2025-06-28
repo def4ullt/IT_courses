@@ -15,5 +15,6 @@ namespace DAL.Repositories.Interfaces
 		void Update(Users users);
 		void Delete(Users users);
 		Task SaveChangesAsync();
+		IQueryable<Users> GetAllQueryable();
 	}
 }

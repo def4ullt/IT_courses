@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.DTO.Lessons
 {
-	internal class LessonCreateDto
+	public class LessonCreateDto
 	{
 		public int CourseId { get; set; }
 		public string Title { get; set; } = null!;

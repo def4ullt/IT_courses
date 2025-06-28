@@ -42,5 +42,10 @@ namespace DAL.Repositories
 		{
 			await _context.SaveChangesAsync();
 		}
+
+		public IQueryable<Users> GetAllQueryable()
+		{
+			return _context.Users.AsQueryable();
+		}
 	}
 }

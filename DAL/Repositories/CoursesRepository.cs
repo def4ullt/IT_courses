@@ -44,5 +44,10 @@ namespace DAL.Repositories
 			return _context.Courses
 				.Where(c => c.instructor_id == instructor_id);
 		}
+
+		public IQueryable<Courses> GetAllQueryable()
+		{
+			return _context.Courses.AsQueryable();
+		}
 	}
 }

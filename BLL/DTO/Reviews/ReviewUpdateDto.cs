@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.DTO.Reviews
 {
-	internal class ReviewUpdateDto
+	public class ReviewUpdateDto
 	{
 		public int Id { get; set; }
 		public string Comment { get; set; } = null!;
