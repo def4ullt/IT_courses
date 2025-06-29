@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL
 {
-	internal static class Extensions
+	public static class Extensions
 	{
 		public static IServiceCollection AddDALServices(this IServiceCollection services, IConfiguration configuration)
 		{

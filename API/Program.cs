@@ -1,36 +1,140 @@
+using System.Net;
+using System.Net.Mail;
+using System.Text;
+using API.Logging;
+using API.Middlewares;
+using BLL;
+using DAL.Entities;
+using DAL;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using DAL.Data;
+using Mapster;
+using MapsterMapper;
+using DAL.Helpers;
 
-namespace API
+
+var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
+var smtpSettings = configuration.GetSection("Smtp");
+
+builder.Host.ConfigureSerilog();
+
+var smtpClient = new SmtpClient(smtpSettings["Host"])
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
+    Port = int.Parse(smtpSettings["Port"] ?? string.Empty),
+    Credentials = new NetworkCredential(smtpSettings["User"], smtpSettings["Pass"]),
+    EnableSsl = true
+};
 
-			// Add services to the container.
+builder.Services
+    .AddFluentEmail(smtpSettings["Sender"])
+    .AddSmtpSender(smtpClient);
 
-			builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    var jwtSecurityScheme = new OpenApiSecurityScheme
+    {
+        BearerFormat = "JWT",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Enter your JWT Access Token",
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+    options.AddSecurityDefinition("Bearer", jwtSecurityScheme);
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        { jwtSecurityScheme, [] }
+    });
+});
 
-			var app = builder.Build();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false; // IN PROD: set to true
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = configuration["JwtConfig:Issuer"],
+            ValidAudience = configuration["JwtConfig:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtConfig:Key"]!)),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true
+        };
+    });
 
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
-			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			}
+builder.Services.AddAuthorization();
 
-			app.UseHttpsRedirection();
+builder.Services.AddDALServices(builder.Configuration);
+builder.Services.AddBusinessLogic();
 
-			app.UseAuthorization();
+builder.Services.AddSingleton(TypeAdapterConfig.GlobalSettings);
+builder.Services.AddScoped<IMapper, ServiceMapper>();
+builder.Services.AddScoped(typeof(ISortHelper<>), typeof(SortHelper<>));
 
 
-			app.MapControllers();
+builder.Services.AddIdentity<Users, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
-			app.Run();
-		}
-	}
+var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    try
+    {
+        if (await context.Database.CanConnectAsync())
+        {
+            Console.WriteLine("Успішно підключено до бази даних");
+        }
+        else
+        {
+            Console.WriteLine("Не вдалось підключитись до бази даних");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Помилка підключення: " + ex.Message);
+    }
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Users>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await SeedData.SeedAsync(context, userManager, roleManager);
 }
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

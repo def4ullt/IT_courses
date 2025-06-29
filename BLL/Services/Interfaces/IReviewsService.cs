@@ -7,7 +7,7 @@ using DAL.Entities;
 
 namespace BLL.Services.Interfaces
 {
-	internal interface IReviewsService
+	public interface IReviewsService
 	{
 		Task<Reviews?> GetByIdAsync(int id);
 		Task<IEnumerable<Reviews>> GetByCourseIdAsync(int courseId);

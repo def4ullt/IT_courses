@@ -33,31 +33,31 @@ namespace BLL.Services
             _configuration = configuration;
         }
 
-        public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
-        {
-            var user = await _usersRepository.GetByUsernameAsync(loginRequestDto.UserName);
-            if (user == null)
-                throw new UnauthorizedAccessException("Invalid username or password.");
+		public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
+		{
+			var user = await _usersManager.FindByNameAsync(loginRequestDto.UserName);
+			if (user == null)
+				throw new UnauthorizedAccessException("Invalid username or password.");
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginRequestDto.Password, false);
-            if (!result.Succeeded)
-                throw new UnauthorizedAccessException("Invalid username or password.");
+			var passwordValid = await _usersManager.CheckPasswordAsync(user, loginRequestDto.Password);
+			if (!passwordValid)
+				throw new UnauthorizedAccessException("Invalid username or password.");
 
-            var accessToken = GenerateJwtToken(user);
-            var refreshToken = GenerateRefreshToken();
+			var accessToken = GenerateJwtToken(user);
+			var refreshToken = GenerateRefreshToken();
 
-            return new LoginResponseDto
-            {
-                UserId = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                Role = user.Role,
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
-            };
-        }
+			return new LoginResponseDto
+			{
+				UserId = user.Id,
+				UserName = user.UserName,
+				Email = user.Email,
+				Role = user.Role,
+				AccessToken = accessToken,
+				RefreshToken = refreshToken
+			};
+		}
 
-        public async Task<RefreshTokenResponseDto> RefreshTokenAsync(string refreshToken)
+		public async Task<RefreshTokenResponseDto> RefreshTokenAsync(string refreshToken)
         {
 
             var dummyUser = new Users

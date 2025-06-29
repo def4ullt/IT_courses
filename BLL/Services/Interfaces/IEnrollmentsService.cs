@@ -2,7 +2,7 @@
 
 namespace BLL.Services.Interfaces
 {
-	internal interface IEnrollmentsService
+	public interface IEnrollmentsService
 	{
 		Task<Enrollments?> GetByIdAsync(int id);
 		Task<List<Enrollments>> GetByUserIdAsync(string userId);
@@ -10,7 +10,7 @@ namespace BLL.Services.Interfaces
 		Task AddAsync(Enrollments enrollment);
 		void Update(Enrollments enrollment);
 		void Delete(Enrollments enrollment);
-		Task SaveChangesAsync();
+		Task SaveChangesAsync(); 
 		IQueryable<Enrollments> GetAllQueryable();
 	}
 }

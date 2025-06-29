@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities.Configuration
+namespace DAL.Configurations
 {
 	public class EnrollmentsConfiguration : IEntityTypeConfiguration<Enrollments>
 	{
@@ -17,7 +18,7 @@ namespace DAL.Entities.Configuration
 			builder.Property(e => e.course_id).IsRequired();
 			builder.Property(e => e.enrolled_at).IsRequired();
 			
-			builder.HasOne<UsersConfiguration>()
+			builder.HasOne<Users>()
 				.WithMany()
 				.HasForeignKey(e => e.user_id)
 				.OnDelete(DeleteBehavior.Cascade);

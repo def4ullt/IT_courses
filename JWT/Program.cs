@@ -1,36 +1,95 @@
+using System.Net;
+using System.Net.Mail;
+using BLL.Configuration;
+using BLL;
+using KnowledgeCheck.JWT.Configuration;
+using KnowledgeCheck.JWT.Middlewares;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
+using DAL;
+using BLL.Services.Interfaces;
+using BLL.Services;
+using DAL.Data;
+using DAL.Entities;
+using Microsoft.AspNetCore.Identity;
+using DAL.Helpers;
 
-namespace JWT
+
+var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
+
+var smtpSettings = configuration.GetSection("Smtp");
+var smtpClient = new SmtpClient(smtpSettings["Host"])
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
+    Port = int.Parse(smtpSettings["Port"] ?? string.Empty),
+    Credentials = new NetworkCredential(smtpSettings["User"], smtpSettings["Pass"]),
+    EnableSsl = true
+};
 
-			// Add services to the container.
+builder.Services
+    .AddFluentEmail(smtpSettings["Sender"])
+    .AddSmtpSender(smtpClient);
 
-			builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+builder.Services.AddDALServices(configuration);
+builder.Services.AddBusinessLogic();
 
-			var app = builder.Build();
+builder.Services.AddMapsterConfiguration();
 
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
-			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			}
+// Add services to the container.
+builder.Services.AddJwtAuthentication(configuration);
 
-			app.UseHttpsRedirection();
+builder.Services.AddAuthorization();
 
-			app.UseAuthorization();
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    var jwtSecurityScheme = new OpenApiSecurityScheme
+    {
+        BearerFormat = "JWT",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Enter your JWT Access Token",
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+    options.AddSecurityDefinition("Bearer", jwtSecurityScheme);
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        { jwtSecurityScheme, [] }
+    });
+});
+
+builder.Services.AddIdentity<Users, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+builder.Services.AddScoped(typeof(ISortHelper<>), typeof(SortHelper<>));
 
 
-			app.MapControllers();
+var app = builder.Build();
 
-			app.Run();
-		}
-	}
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

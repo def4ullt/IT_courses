@@ -1,13 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities.Configuration
+namespace DAL.Configurations
 {
+	[NotMapped]
 	public class UsersConfiguration : IEntityTypeConfiguration<Users>
 	{
 		public void Configure(EntityTypeBuilder<Users> builder)
@@ -29,7 +32,7 @@ namespace DAL.Entities.Configuration
 
 			builder.Property(u => u.CreatedAt)
 				.IsRequired()
-				.HasDefaultValueSql("GETDATE()");
+				.HasDefaultValueSql("CURRENT_TIMESTAMP");
 		}
 	}
 }

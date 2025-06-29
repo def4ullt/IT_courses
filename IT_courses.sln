@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWT", "JWT\JWT.csproj", "{0B863096-1BDA-4359-A11F-BE1982B49FFB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5981A343-6550-4C55-B1CD-072633560107} = {5981A343-6550-4C55-B1CD-072633560107}
+		{DE9A0CBE-5B11-455C-AB31-38C68444D5E4} = {DE9A0CBE-5B11-455C-AB31-38C68444D5E4}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{5981A343-6550-4C55-B1CD-072633560107}"
 	ProjectSection(ProjectDependencies) = postProject

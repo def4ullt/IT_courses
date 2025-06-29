@@ -15,5 +15,6 @@ namespace BLL.DTO.Users
 		public string? LastName { get; set; }
 		public DateTime? BirthDate { get; set; }
 		public IList<string>? Roles { get; set; }
+		public object CreatedAt { get; internal set; }
 	}
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Services.Interfaces
 {
-	internal interface ILessonsService
+	public interface ILessonsService
 	{
 		Task<Lessons?> GetByIdAsync(int id);
 		Task<List<Lessons>> GetByCourseIdAsync(int courseId);

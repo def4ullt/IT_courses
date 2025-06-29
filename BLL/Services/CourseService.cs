@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Mapster;
+using MapsterMapper;
 using BLL.DTO.Courses;
 using BLL.Exceptions;
 using BLL.Services.Interfaces;

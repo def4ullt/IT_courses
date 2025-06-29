@@ -12,5 +12,6 @@ namespace DAL.Entities
 		public string user_id { get; set; }
 		public int course_id { get; set; }
 		public DateTime enrolled_at { get; set; }
+		public DateTime CreatedAt { get; set; } 
 	}
 }
