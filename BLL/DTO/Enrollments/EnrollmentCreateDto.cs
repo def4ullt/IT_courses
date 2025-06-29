@@ -8,7 +8,8 @@ namespace BLL.DTO.Enrollments
 {
 	public class EnrollmentCreateDto
 	{
-		public int CourseId { get; set; }
-		public string UserId { get; set; } = null!;
+		public int course_id { get; set; }
+		public string user_id { get; set; } = null!;
+		public DateTime enrolled_at{ get; set; } = DateTime.UtcNow;
 	}
 }
