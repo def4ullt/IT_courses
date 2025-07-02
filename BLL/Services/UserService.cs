@@ -31,7 +31,7 @@ namespace BLL.Services
 			return _mapper.Map<IEnumerable<UserResponseDto>>(users);
 		}
 
-		public async Task<UserResponseDto> GetUserByIdAsync(int userId)
+		public async Task<UserResponseDto> GetUserByIdAsync(string userId)
 		{
 			var user = await _usersRepository.GetByIdAsync(userId) ?? throw new UserNotFoundException();
 			return _mapper.Map<UserResponseDto>(user);
@@ -56,11 +56,10 @@ namespace BLL.Services
 			await _usersRepository.AddAsync(user);
 			await _usersRepository.SaveChangesAsync();
 
-			// Fixing CS0428: Invoking the BuildAdapter method to return the mapped UserResponseDto
 			return _mapper.Map<UserResponseDto>(user);
 		}
 
-		public async Task UpdateUserAsync(int userId, UserUpdateDto userUpdateDto)
+		public async Task UpdateUserAsync(string userId, UserUpdateDto userUpdateDto)
 		{
 			var user = await _usersRepository.GetByIdAsync(userId) ?? throw new UserNotFoundException();
 			userUpdateDto.Adapt(user);
@@ -68,7 +67,7 @@ namespace BLL.Services
 			await _usersRepository.SaveChangesAsync();
 		}
 
-		public async Task DeleteUserAsync(int userId)
+		public async Task DeleteUserAsync(string userId)
 		{
 			var user = await _usersRepository.GetByIdAsync(userId) ?? throw new UserNotFoundException();
 			_usersRepository.Delete(user);

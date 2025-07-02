@@ -9,13 +9,10 @@ namespace BLL.DTO.Courses
 	public class CourseResponseDto
 	{
 		public int Id { get; set; }
-		public string Title { get; set; } = null!;
-		public string Description { get; set; } = null!;
+		public string title { get; set; } = null!;
+		public string description { get; set; } = null!;
 
-		public string InstructorId { get; set; } = null!;
-		public string InstructorName { get; set; } = null!; // Можливо, з Users.FullName
-
-		public int EnrollmentsCount { get; set; }
-		public DateTime CreatedAt { get; set; }
+		public string instructor_id { get; set; } = null!;
+		public DateTime created_at { get; set; }
 	}
 }

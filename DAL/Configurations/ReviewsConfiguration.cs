@@ -32,7 +32,7 @@ namespace DAL.Configurations
 
 			builder.Property(r => r.created_at)
 				.IsRequired()
-				.HasDefaultValueSql("GETDATE()");
+				.HasDefaultValueSql("NOW()");
 
 			builder.HasOne<Users>()
 				.WithMany()

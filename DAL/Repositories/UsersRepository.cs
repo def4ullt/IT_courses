@@ -13,7 +13,7 @@ namespace DAL.Repositories
 	{
 		public UsersRepository(ApplicationDbContext context) : base(context) { }
 
-		public async Task<Users?> GetByIdAsync(int id)
+		public async Task<Users?> GetByIdAsync(string id)
 		{
 			return await _context.Users.FindAsync(id);
 		}

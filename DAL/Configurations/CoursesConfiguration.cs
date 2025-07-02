@@ -29,7 +29,7 @@ namespace DAL.Configurations
 
 			builder.Property(c => c.created_at)
 				.IsRequired()
-				.HasDefaultValueSql("GETDATE()");
+				.HasDefaultValueSql("NOW()");
 		}
 	}
 }

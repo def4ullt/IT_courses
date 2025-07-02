@@ -74,7 +74,7 @@ builder.Services.AddAuthentication(options =>
             ValidAudience = configuration["JwtConfig:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtConfig:Key"]!)),
             ValidateIssuer = true,
-            ValidateAudience = true,
+            ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true
         };
@@ -90,9 +90,13 @@ builder.Services.AddScoped<IMapper, ServiceMapper>();
 builder.Services.AddScoped(typeof(ISortHelper<>), typeof(SortHelper<>));
 
 
-builder.Services.AddIdentity<Users, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddIdentityCore<Users>(options => { })
+	.AddRoles<IdentityRole>()
+	.AddEntityFrameworkStores<ApplicationDbContext>()
+	.AddDefaultTokenProviders();
+
+builder.Services.AddScoped<SignInManager<Users>>();
+
 
 var app = builder.Build();
 

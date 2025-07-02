@@ -5,12 +5,10 @@ using DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -130,27 +128,31 @@ namespace BLL.Services
             await _signInManager.SignOutAsync();
         }
 
-        private string GenerateJwtToken(Users user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["JwtConfig:Key"]);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
+		private string GenerateJwtToken(Users user)
+		{
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var key = Encoding.ASCII.GetBytes(_configuration["JwtConfig:Key"]);
+			var tokenDescriptor = new SecurityTokenDescriptor
+			{
+				Issuer = _configuration["JwtConfig:Issuer"],  
+				Audience = _configuration["JwtConfig:Audience"],
                 Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Role, user.Role)
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(int.Parse(_configuration["JwtConfig:TokenValidityMins"])),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
+				{
+			new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+			new Claim(ClaimTypes.Name, user.UserName),
+			new Claim(ClaimTypes.Role, user.Role)
+		}),
+				Expires = DateTime.UtcNow.AddMinutes(int.Parse(_configuration["JwtConfig:TokenValidityMins"])),
+				SigningCredentials = new SigningCredentials(
+					new SymmetricSecurityKey(key),
+					SecurityAlgorithms.HmacSha256Signature)
+			};
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
+			var token = tokenHandler.CreateToken(tokenDescriptor);
+			return tokenHandler.WriteToken(token);
+		}
 
-        private string GenerateRefreshToken()
+		private string GenerateRefreshToken()
         {
             return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
         }

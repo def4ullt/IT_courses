@@ -32,10 +32,10 @@ namespace BLL.Configuration
 			// Courses
 			TypeAdapterConfig<Courses, CourseResponseDto>.NewConfig()
 				.Map(dest => dest.Id, src => src.Id)
-				.Map(dest => dest.Title, src => src.title)
-				.Map(dest => dest.Description, src => src.description)
-				.Map(dest => dest.InstructorId, src => src.instructor_id)
-				.Map(dest => dest.CreatedAt, src => src.created_at);
+				.Map(dest => dest.title, src => src.title)
+				.Map(dest => dest.description, src => src.description)
+				.Map(dest => dest.instructor_id, src => src.instructor_id)
+				.Map(dest => dest.created_at, src => src.created_at);
 
 			TypeAdapterConfig<CreateCourseDto, Courses>.NewConfig()
 				.Map(dest => dest.title, src => src.Title)

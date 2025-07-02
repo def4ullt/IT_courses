@@ -26,7 +26,7 @@ namespace API.Controllers
 
 		[HttpGet("{id}")]
 		[Authorize]
-		public async Task<IActionResult> GetById(int id)
+		public async Task<IActionResult> GetById(string id)
 		{
 			var user = await _userService.GetUserByIdAsync(id);
 			return Ok(user);
@@ -50,7 +50,7 @@ namespace API.Controllers
 
 		[HttpPut("{id}")]
 		[Authorize]
-		public async Task<IActionResult> Update(int id, [FromBody] UserUpdateDto dto)
+		public async Task<IActionResult> Update(string id, [FromBody] UserUpdateDto dto)
 		{
 			await _userService.UpdateUserAsync(id, dto);
 			return NoContent();
@@ -58,7 +58,7 @@ namespace API.Controllers
 
 		[HttpDelete("{id}")]
 		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> Delete(int id)
+		public async Task<IActionResult> Delete(string id)
 		{
 			await _userService.DeleteUserAsync(id);
 			return NoContent();

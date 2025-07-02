@@ -10,7 +10,7 @@ namespace DAL.Entities
 {
 	public class Users : IdentityUser
 	{
-		public string Role { get; set; }
+		public string Role { get; set; } = string.Empty;
 
 		public DateTime CreatedAt { get; set; }
 	

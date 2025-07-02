@@ -8,11 +8,8 @@ namespace BLL.DTO.Users
 {
 	public class UserUpdateDto
 	{
+		public string Role { get; set; } = null!;
 		public string UserName { get; set; } = null!;
-		public string Id { get; set; } = null!;
-		public string? Email { get; set; }
-		public string? FirstName { get; set; }
-		public string? LastName { get; set; }
-		public DateTime? BirthDate { get; set; }
+		public string Email { get; set; } = null!;
 	}
 }
